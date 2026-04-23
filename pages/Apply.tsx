@@ -125,12 +125,12 @@ export default function Apply() {
                     <div>
                       <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Upload Headshot/Photo *</label>
                       <input type="file" name="headshot" accept="image/*" required className="w-full bg-brandBlack/50 border border-white/10 rounded-lg px-4 py-2.5 text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brandCyan file:text-black hover:file:bg-brandCyan/90 transition-colors cursor-pointer" />
-                      <p className="text-xs text-gray-500 mt-1">JPG, PNG — max 40MB</p>
+                      <p className="text-xs text-gray-500 mt-1">JPG, PNG — max 20MB</p>
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Upload Resume (Optional)</label>
                       <input type="file" name="resume" accept=".pdf,.doc,.docx" className="w-full bg-brandBlack/50 border border-white/10 rounded-lg px-4 py-2.5 text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-white file:text-black hover:file:bg-gray-200 transition-colors cursor-pointer" />
-                      <p className="text-xs text-gray-500 mt-1">PDF, DOC — max 40MB</p>
+                      <p className="text-xs text-gray-500 mt-1">PDF, DOC — max 20MB</p>
                     </div>
                   </div>
                   <button type="submit" disabled={isSubmitting} className="w-full mt-4 px-8 py-4 bg-brandCyan text-black font-black rounded-lg uppercase tracking-[0.2em] hover:bg-white transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">

@@ -145,9 +145,9 @@ export default function SummerCamp() {
           }
         }
         
-        // Strict file size check AFTER compression (limit to 5MB to prevent Nginx connection drop)
-        if (fileToUpload.size > 5 * 1024 * 1024) {
-          alert(`文件 ${value.name} 太大 (${(fileToUpload.size / 1024 / 1024).toFixed(1)}MB)。请上传小于 5MB 的文件。如果是照片，请尝试截屏后再上传。`);
+        // Strict file size check AFTER compression (limit to 20MB to prevent server connection drop)
+        if (fileToUpload.size > 20 * 1024 * 1024) {
+          alert(`文件 ${value.name} 太大 (${(fileToUpload.size / 1024 / 1024).toFixed(1)}MB)。请上传小于 20MB 的文件。如果是照片，请尝试截屏后再上传。`);
           setIsSubmitting(false);
           return;
         }
