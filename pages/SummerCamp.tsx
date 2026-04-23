@@ -162,12 +162,20 @@ export default function SummerCamp() {
       payloadData.append('howDidYouHearAboutUs', sources.join(', '));
     }
 
-   console.log("Submitting application to Formspree...");
+    // Config formsubmit.co
+    payloadData.append("_captcha", "false"); // Disable recaptcha for better UX
+    payloadData.append("_template", "table"); // Use table template for emails
+    payloadData.append("_subject", "New 2026 Summer Camp Application / 新的夏令营报名");
+
+    console.log("Submitting application to Formsubmit.co...");
     try {
-const response = await fetch("/api/submit-form", {
-  method: "POST",
-  body: payloadData,
-});
+      const response = await fetch("https://formsubmit.co/ajax/altdreamstar@gmail.com", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json'
+        },
+        body: payloadData,
+      });
       
       if (response.ok) {
         setIsSubmitted(true);
@@ -178,7 +186,7 @@ const response = await fetch("/api/submit-form", {
         let errorMessage = 'Please try again.';
         try {
           const errorData = await response.json();
-          errorMessage = errorData.error || errorMessage;
+          errorMessage = errorData.message || errorData.error || errorMessage;
           if (errorData.suggestion) {
             errorMessage += `\nSuggestion: ${errorData.suggestion}`;
           }
