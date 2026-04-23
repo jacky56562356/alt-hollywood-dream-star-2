@@ -145,9 +145,9 @@ export default function SummerCamp() {
           }
         }
         
-        // Strict file size check AFTER compression (limit to 20MB to prevent server connection drop)
-        if (fileToUpload.size > 20 * 1024 * 1024) {
-          alert(`文件 ${value.name} 太大 (${(fileToUpload.size / 1024 / 1024).toFixed(1)}MB)。请上传小于 20MB 的文件。如果是照片，请尝试截屏后再上传。`);
+        // Strict file size check AFTER compression (limit to 10MB to prevent Gmail attachment block)
+        if (fileToUpload.size > 10 * 1024 * 1024) {
+          alert(`文件超过大小限制 (File too large): ${value.name} (${(fileToUpload.size / 1024 / 1024).toFixed(1)}MB)。\n\n为保证能成功发送邮件，单个文件请勿超过 10MB。如果是照片，请尽量截屏后再上传；如果是简历(PDF)，请压缩后再上传。`);
           setIsSubmitting(false);
           return;
         }
