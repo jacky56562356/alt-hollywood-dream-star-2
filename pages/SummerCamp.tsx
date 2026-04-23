@@ -88,18 +88,11 @@ export default function SummerCamp() {
       payloadData.append('howDidYouHearAboutUs', sources.join(', '));
     }
 
-    // Config formsubmit.co
-    payloadData.append("_captcha", "false"); // Disable recaptcha for better UX
-    payloadData.append("_template", "table"); // Use table template for emails
-    payloadData.append("_subject", "New 2026 Summer Camp Application / 新的夏令营报名");
-
-    console.log("Submitting application to Formsubmit.co...");
+    // We MUST use our custom backend because formsubmit.co does NOT support FormData correctly without Pro.
+    console.log("Submitting application to backend...");
     try {
-      const response = await fetch("https://formsubmit.co/ajax/altdreamstar@gmail.com", {
+      const response = await fetch("/api/submit-form", {
         method: "POST",
-        headers: {
-          'Accept': 'application/json'
-        },
         body: payloadData,
       });
       

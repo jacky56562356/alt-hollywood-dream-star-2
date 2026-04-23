@@ -15,17 +15,11 @@ export default function Apply() {
     
     const formData = new FormData(form);
 
-    // Use FormSubmit.co which supports file uploads for free and doesn't require a custom backend server
-    formData.append("_captcha", "false"); // Disable recaptcha for better UX
-    formData.append("_template", "table"); // Use table template for emails
-    formData.append("_subject", "New Application - ALT Hollywood Dream Star / 新的青年演员报名");
-
+    // We MUST use our custom backend because formsubmit.co does NOT support FormData correctly without Pro.
+    console.log("Submitting application to backend...");
     try {
-      const response = await fetch("https://formsubmit.co/ajax/altdreamstar@gmail.com", {
+      const response = await fetch("/api/submit-form", {
         method: "POST",
-        headers: {
-          'Accept': 'application/json'
-        },
         body: formData
       });
       
