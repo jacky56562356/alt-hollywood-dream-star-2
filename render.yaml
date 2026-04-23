@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: hollywood-camp-app
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: ~22.0.0
+      - key: PORT
+        value: 3000

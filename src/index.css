@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brandBlack: #0f1115;
+  --color-brandCyan: #00f2fe;
+  --font-cinematic: "Cinzel", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@utility brand-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brandCyan to-blue-500;
+}
+
+@utility animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 1rem)); }
+}
