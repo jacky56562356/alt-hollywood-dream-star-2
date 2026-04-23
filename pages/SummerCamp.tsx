@@ -72,88 +72,14 @@ export default function SummerCamp() {
     }
     // --- END MANUAL VALIDATION ---
 
-    const compressImage = (file: File): Promise<File> => {
-      return new Promise((resolve) => {
-        if (!file.type.startsWith('image/')) {
-          resolve(file);
-          return;
-        }
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-          const img = new Image();
-          img.src = event.target?.result as string;
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 1920;
-            const MAX_HEIGHT = 1920;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > height) {
-              if (width > MAX_WIDTH) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
-              }
-            } else {
-              if (height > MAX_HEIGHT) {
-                width *= MAX_HEIGHT / height;
-                height = MAX_HEIGHT;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx?.drawImage(img, 0, 0, width, height);
-
-            canvas.toBlob((blob) => {
-              if (blob) {
-                try {
-                  resolve(new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() }));
-                } catch (e) {
-                  // Fallback for older browsers that don't support File constructor
-                  resolve(file);
-                }
-              } else {
-                resolve(file);
-              }
-            }, 'image/jpeg', 0.8);
-          };
-          img.onerror = () => resolve(file);
-        };
-        reader.onerror = () => resolve(file);
-      });
-    };
-
     const originalFormData = new FormData(form);
     const payloadData = new FormData();
     const sources: string[] = [];
     
-    // Check file sizes and compress images before submitting
     for (const [key, value] of originalFormData.entries()) {
       if (key === 'source') {
         sources.push(value.toString());
-      } else if (value instanceof File && value.size > 0) {
-        let fileToUpload = value;
-        
-        if (value.type.startsWith('image/')) {
-          try {
-            fileToUpload = await compressImage(value);
-          } catch (e) {
-            console.error("Compression error:", e);
-          }
-        }
-        
-        // Strict file size check AFTER compression (limit to 10MB to prevent Gmail attachment block)
-        if (fileToUpload.size > 10 * 1024 * 1024) {
-          alert(`文件超过大小限制 (File too large): ${value.name} (${(fileToUpload.size / 1024 / 1024).toFixed(1)}MB)。\n\n为保证能成功发送邮件，单个文件请勿超过 10MB。如果是照片，请尽量截屏后再上传；如果是简历(PDF)，请压缩后再上传。`);
-          setIsSubmitting(false);
-          return;
-        }
-        
-        payloadData.append(key, fileToUpload);
-      } else if (!(value instanceof File)) {
+      } else {
         payloadData.append(key, value);
       }
     }
@@ -616,13 +542,13 @@ export default function SummerCamp() {
                 五、项目相关信息
               </div>
               <div className="grid grid-cols-1 gap-5">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[12px] tracking-[1.5px] text-[#C9A84C] uppercase font-medium">上传个人简历<span className="text-[#888] text-[10px] tracking-normal normal-case ml-1.5">（选填，支持 PDF/Word 等格式）</span></label>
-                  <input type="file" name="resume" accept=".pdf,.doc,.docx" className="bg-white/5 border border-[#c9a84c4d] rounded-sm text-white text-[14px] p-3 focus:border-[#C9A84C] focus:bg-[#c9a84c0f] outline-none transition-all w-full file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-semibold file:bg-[#C9A84C] file:text-black hover:file:bg-[#F0C45A] cursor-pointer" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[12px] tracking-[1.5px] text-[#C9A84C] uppercase font-medium">上传大头照 / 形象照<span className="text-[#888] text-[10px] tracking-normal normal-case ml-1.5">（选填，支持 JPG/PNG 等格式）</span></label>
-                  <input type="file" name="headshot" accept="image/*" className="bg-white/5 border border-[#c9a84c4d] rounded-sm text-white text-[14px] p-3 focus:border-[#C9A84C] focus:bg-[#c9a84c0f] outline-none transition-all w-full file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-semibold file:bg-[#C9A84C] file:text-black hover:file:bg-[#F0C45A] cursor-pointer" />
+                <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/20 p-4 rounded-sm mb-2 text-center">
+                  <p className="text-[#C9A84C] font-medium text-sm mb-1">
+                    请将学员的个人简历和照片发送至邮箱 (Please email resume and photos to):
+                  </p>
+                  <a href="mailto:altdreamstar@gmail.com" className="text-white font-bold text-base hover:text-[#C9A84C] underline transition-colors">
+                    altdreamstar@gmail.com
+                  </a>
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[12px] tracking-[1.5px] text-[#C9A84C] uppercase font-medium">表演 / 影视经验<span className="text-[#888] text-[10px] tracking-normal normal-case ml-1.5">（选填）</span></label>

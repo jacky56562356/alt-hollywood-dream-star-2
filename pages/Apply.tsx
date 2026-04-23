@@ -13,20 +13,6 @@ export default function Apply() {
     
     const form = e.target as HTMLFormElement;
     
-    // Check file sizes manually to prevent exceeding Gmail limit
-    const fileInputs = form.querySelectorAll<HTMLInputElement>('input[type="file"]');
-    for (const input of Array.from(fileInputs)) {
-      if (input.files && input.files.length > 0) {
-        for (let i = 0; i < input.files.length; i++) {
-          if (input.files[i].size > 10 * 1024 * 1024) {
-            setErrorMessage(`File ${input.files[i].name} is too large. Please keep each file under 10MB. For photos, try taking a screenshot first.`);
-            setIsSubmitting(false);
-            return;
-          }
-        }
-      }
-    }
-
     const formData = new FormData(form);
 
     // Use FormSubmit.co which supports file uploads for free and doesn't require a custom backend server
@@ -144,17 +130,13 @@ export default function Apply() {
                     <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Special Skills</label>
                     <textarea name="Skills" rows={2} className="w-full bg-brandBlack/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition-colors resize-none" placeholder="e.g., Dancing, Singing, Martial Arts, Languages spoken"></textarea>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Upload Headshot/Photo *</label>
-                      <input type="file" name="headshot" accept="image/*" required className="w-full bg-brandBlack/50 border border-white/10 rounded-lg px-4 py-2.5 text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brandCyan file:text-black hover:file:bg-brandCyan/90 transition-colors cursor-pointer" />
-                      <p className="text-xs text-gray-500 mt-1">JPG, PNG — max 10MB (If failed, try taking a screenshot of the photo)</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Upload Resume (Optional)</label>
-                      <input type="file" name="resume" accept=".pdf,.doc,.docx" className="w-full bg-brandBlack/50 border border-white/10 rounded-lg px-4 py-2.5 text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-white file:text-black hover:file:bg-gray-200 transition-colors cursor-pointer" />
-                      <p className="text-xs text-gray-500 mt-1">PDF, DOC — max 10MB</p>
-                    </div>
+                  <div className="bg-brandCyan/10 border border-brandCyan/20 p-6 rounded-lg text-center mb-6">
+                    <p className="text-white font-medium mb-1">
+                      请将您的个人简历和照片发送至邮箱 (Please email your resume and photos to):
+                    </p>
+                    <a href="mailto:altdreamstar@gmail.com" className="text-brandCyan font-bold text-lg hover:underline">
+                      altdreamstar@gmail.com
+                    </a>
                   </div>
                   <button type="submit" disabled={isSubmitting} className="w-full mt-4 px-8 py-4 bg-brandCyan text-black font-black rounded-lg uppercase tracking-[0.2em] hover:bg-white transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                     {isSubmitting ? "Sending..." : "Submit Application"} {!isSubmitting && <ArrowRight size={20} />}
